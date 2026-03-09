@@ -1,0 +1,30 @@
+module.exports = {
+
+TR: { factor: 0.442, label: "Türkiye", source: "TEİAŞ 2023" },
+DE: { factor: 0.364, label: "Almanya", source: "UBA 2023" },
+FR: { factor: 0.052, label: "Fransa", source: "RTE 2023" },
+GB: { factor: 0.233, label: "İngiltere", source: "DESNZ 2023" },
+IT: { factor: 0.233, label: "İtalya", source: "IEA 2023" },
+ES: { factor: 0.162, label: "İspanya", source: "REE 2023" },
+NL: { factor: 0.284, label: "Hollanda", source: "IEA 2023" },
+PL: { factor: 0.635, label: "Polonya", source: "IEA 2023" },
+SE: { factor: 0.013, label: "İsveç", source: "IEA 2023" },
+NO: { factor: 0.017, label: "Norveç", source: "IEA 2023" },
+EU: { factor: 0.233, label: "AB Ortalaması", source: "EEA 2023" },
+US: { factor: 0.386, label: "ABD", source: "EPA 2022" },
+CN: { factor: 0.581, label: "Çin", source: "IEA 2022" },
+IN: { factor: 0.708, label: "Hindistan", source: "IEA 2022" },
+JP: { factor: 0.434, label: "Japonya", source: "IEA 2022" },
+KR: { factor: 0.415, label: "Güney Kore", source: "IEA 2022" },
+AU: { factor: 0.510, label: "Avustralya", source: "DCCEEW 2023" },
+CA: { factor: 0.120, label: "Kanada", source: "ECCC 2022" },
+BR: { factor: 0.074, label: "Brezilya", source: "IEA 2022" },
+RU: { factor: 0.322, label: "Rusya", source: "IEA 2022" },
+AE: { factor: 0.527, label: "BAE", source: "IEA 2022" },
+SA: { factor: 0.617, label: "Suudi Arabistan", source: "IEA 2022" },
+EG: { factor: 0.478, label: "Mısır", source: "IEA 2022" },
+ZA: { factor: 0.900, label: "Güney Afrika", source: "IEA 2022" },
+MX: { factor: 0.452, label: "Meksika", source: "IEA 2022" },
+AR: { factor: 0.319, label: "Arjantin", source: "IEA 2022" }
+
+}
