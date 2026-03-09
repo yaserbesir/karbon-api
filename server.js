@@ -7,11 +7,17 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.get("/",(req,res)=>{
-res.send("Karbon API çalışıyor")
-})
+const API_KEY = "AGROFIELD_SECURE_KEY_2024"
 
 app.post("/calculate",(req,res)=>{
+
+const apiKey = req.headers["x-api-key"]
+
+if(apiKey !== API_KEY){
+return res.status(403).json({
+error:"Unauthorized"
+})
+}
 
 const {values}=req.body
 
@@ -20,11 +26,11 @@ let total=0
 
 for(const key in values){
 
-const factor=factors[key]
+const factor = factors[key]
 
 if(!factor) continue
 
-const emission = values[key] * factor
+const emission = values[key]*factor
 
 results[key]=emission
 
@@ -42,5 +48,9 @@ total
 const PORT = process.env.PORT || 10000
 
 app.listen(PORT,()=>{
-console.log("API running on port "+PORT)
+console.log("API running")
+})
+
+app.get("/",(req,res)=>{
+res.send("Karbon API çalışıyor")
 })
