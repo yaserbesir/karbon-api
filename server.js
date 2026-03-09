@@ -1,80 +1,66 @@
 const express = require("express")
 const cors = require("cors")
-const rateLimit = require("express-rate-limit")
+
 const factors = require("./factors")
+const elecFactors = require("./elecFactors")
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-// API KEY
-const API_KEY = "AGROFIELD_SECURE_KEY_2024"
+app.post("/calculate", (req, res) => {
 
-// RATE LIMIT (API saldırı koruması)
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: {
-    error: "Too many requests, please try again later"
-  }
+const { values, country } = req.body
+
+if(!values || typeof values !== "object"){
+ return res.status(400).json({ error:"Invalid data" })
+}
+
+let total = 0
+let results = {}
+
+for(const key in values){
+
+let factor
+
+// electricity için ülke bazlı factor
+if(key === "electricity"){
+
+const countryCode = country || "TR"
+
+if(!elecFactors[countryCode]){
+ return res.status(400).json({ error:"Invalid country code" })
+}
+
+factor = elecFactors[countryCode].factor
+
+}else{
+
+factor = factors[key]
+
+}
+
+if(!factor) continue
+
+const emission = values[key] * factor
+
+results[key] = emission
+
+total += emission
+
+}
+
+res.json({
+success:true,
+totalEmission: total,
+breakdown: results
 })
-
-app.use(limiter)
-
-
-// TEST ROUTE
-app.get("/", (req,res)=>{
-  res.send("Karbon API çalışıyor")
-})
-
-
-// CALCULATION API
-app.post("/calculate",(req,res)=>{
-
-  const apiKey = req.headers["x-api-key"]
-
-  if(apiKey !== API_KEY){
-    return res.status(403).json({
-      error:"Unauthorized"
-    })
-  }
-
-  const {values} = req.body
-
-  if(!values){
-    return res.status(400).json({
-      error:"Values missing"
-    })
-  }
-
-  let results = {}
-  let total = 0
-
-  for(const key in values){
-
-    const factor = factors[key]
-
-    if(!factor) continue
-
-    const emission = Number(values[key]) * factor
-
-    results[key] = emission
-
-    total += emission
-
-  }
-
-  res.json({
-    results,
-    total
-  })
 
 })
 
+const PORT = process.env.PORT || 3000
 
-const PORT = process.env.PORT || 10000
-
-app.listen(PORT,()=>{
-  console.log("API running on port " + PORT)
+app.listen(PORT, () => {
+console.log("API running on port", PORT)
 })
